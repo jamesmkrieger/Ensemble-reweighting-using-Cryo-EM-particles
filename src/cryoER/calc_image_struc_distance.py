@@ -1,9 +1,3 @@
-import numpy as np
-from tqdm import tqdm
-import torch
-import cryoER.imggen_torch as igt
-import os
-import MDAnalysis as mda
 import argparse
 
 
@@ -102,6 +96,16 @@ def _parse_args():
 
 
 def main(args=None):
+
+    import numpy as np
+    from tqdm import tqdm
+    import torch
+    import cryoER.imggen_torch as igt
+    import os
+    import MDAnalysis as mda
+
+    from tools.mdau_to_pos_arr import mdau_to_pos_arr
+
     if args is None:
         parser = _parse_args()
         args = parser.parse_args()
@@ -129,14 +133,6 @@ def main(args=None):
     ######## ######## ######## ########
 
     file_prefix = "npix%d_ps%.2f_s%.1f_snr%.1E" % (n_pixel, pixel_size, sigma, snr)
-
-    def mdau_to_pos_arr(u):
-        protein_CA = u.select_atoms("protein and name CA")
-        pos = torch.zeros((len(u.trajectory), len(protein_CA), 3), dtype=float)
-        for i, ts in enumerate(u.trajectory):
-            pos[i] = torch.from_numpy(protein_CA.positions)
-        pos -= pos.mean(1).unsqueeze(1)
-        return pos
 
     print("Reading trajectory...")
 
