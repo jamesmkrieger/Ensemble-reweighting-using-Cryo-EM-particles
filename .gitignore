@@ -99,3 +99,6 @@ ENV/
 # Compiled Stan files
 src/cryoER/cryo-er
 src/cryoER/cryo-er.hpp
+
+# Manual test outputs
+output
