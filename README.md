@@ -19,13 +19,23 @@ Running the Code
 -----------------
 We present an example for generating the synthetic images and calculating the structure-images distance matrix, starting from a set of conformations from MD
 ```
+python3 -m tools.calc_rot_mats \
+  --top_image data/image.pdb \
+  --traj_image data/image.xtc \
+  --top_struc data/struc.pdb \
+  --traj_struc data/struc_m10.xtc \
+  --outdir output/ \
+  --n_batch 5
+```
+
+```
 python3 -m cryoER.calc_image_struc_distance \
-  --top_image ../data/image.pdb \
-  --traj_image ../data/image.xtc \
-  --top_struc ../data/struc.gro \
-  --traj_struc ../data/struc_m10.xtc \
-  --rotmat_struc_imgstruc ../data/rot_mats_struc_image.npy \
-  --outdir ../data/ \
+  --top_image data/image.pdb \
+  --traj_image data/image.xtc \
+  --top_struc data/struc.pdb \
+  --traj_struc data/struc_m10.xtc \
+  --rotmat_struc_imgstruc output/rot_mats_struc_image.npy \
+  --outdir output/ \
   --n_pixel 128 \
   --pixel_size 0.2 \
   --sigma 1.5 \
@@ -42,8 +52,8 @@ The main output is a file with the structure-image distance matrix (```diff_npix
 To estimate the weights, run the MCMC script
 ```
 python3 -m cryoER.run_cryoER_mcmc \
-  --infileclustersize ../data/cluster_counts.txt \
-  --infileimagedistance ../data/diff_npix128_ps0.20_s1.5_snr1.0E-02.npy \
+  --infileclustersize data/cluster_counts.txt \
+  --infileimagedistance output/diff_npix128_ps0.20_s1.5_snr1.0E-02.npy \
   --outdir output/ \
   --chains 4 \
   --iterwarmup 200 \
