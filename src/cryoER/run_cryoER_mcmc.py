@@ -106,7 +106,7 @@ def _parse_args():
         "--itersample",
         type=int,
         default=2000,
-        help="number of MCMC warm-up steps",
+        help="number of MCMC sample steps",
     )
 
     return parser
@@ -130,8 +130,7 @@ def main(args=None):
 
     ## Read N_m, the number of conformations that are in the mth cluster
     infileclustersize = args.infileclustersize
-    counts = np.loadtxt(infileclustersize).astype(int)
-    counts = counts.astype(float)
+    counts = np.loadtxt(infileclustersize).astype(float)
     counts /= np.sum(counts)
     log_Nm = np.log(counts)
 
