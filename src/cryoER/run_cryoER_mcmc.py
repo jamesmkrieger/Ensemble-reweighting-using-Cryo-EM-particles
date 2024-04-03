@@ -129,7 +129,7 @@ def run_cryoER_mcmc(
 
     ## Read N_m, the number of conformations that are in the mth cluster
     infileclustersize = infileclustersize
-    counts = np.loadtxt(infileclustersize).astype(int)
+    counts = np.loadtxt(infileclustersize).astype(float)
     counts = counts.astype(float)
     counts /= np.sum(counts)
     log_Nm = np.log(counts)
@@ -163,6 +163,8 @@ def run_cryoER_mcmc(
     stan_output_file = "%s/Stan_output" % (outdir)
 
     norm = 0.5 / (lmbd**2)
+    if norm == -1:
+        norm = 1
     Dmat = -norm * distance.T
 
     dictionary = {
